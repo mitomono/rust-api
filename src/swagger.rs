@@ -2,19 +2,26 @@ use actix_web::web;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-use crate::employees;
+use crate::books;
+use crate::members;
 
 #[derive(OpenApi)]
 #[openapi(
     paths(
-        employees::find_all,
-        employees::get,
-        employees::find,
-        employees::create,
-        employees::update,
-        employees::delete
+        members::find_all,
+        members::filter,
+        members::find,
+        members::create,
+        members::update,
+        members::delete,
+        books::find_all,
+        books::filter,
+        books::find,
+        books::create,
+        books::update,
+        books::delete
     ),
-    components(schemas(employees::Employees))
+    components(schemas(members::Members), schemas(books::Books))
 )]
 pub struct ApiDoc;
 

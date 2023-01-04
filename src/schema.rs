@@ -2,12 +2,22 @@
 use diesel::table;
 
 table! {
-    employees (id) {
+    members (id) {
         id -> Int4,
         first_name -> Varchar,
         last_name -> Varchar,
-        department -> Varchar,
-        salary -> Float8,
+        email -> Varchar,
+        address -> Varchar,
         age -> Int4,
+    }
+}
+
+table! {
+    books (id) {
+        id -> Int4,
+        title -> Varchar,
+        isbn -> Varchar,
+        copies_available -> Int4,
+        copies -> Int4,
     }
 }

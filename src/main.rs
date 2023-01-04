@@ -1,4 +1,5 @@
 extern crate diesel;
+
 // #[macro_use]
 // extern crate diesel_migrations;
 
@@ -8,16 +9,18 @@ use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use listenfd::ListenFd;
 
+mod books;
 mod db;
-mod employees;
 mod error_handler;
+mod members;
 mod schema;
 mod swagger;
-mod utils;
+pub mod utils;
 
 fn set_routes(config: &mut web::ServiceConfig) {
     swagger::init_swagger(config);
-    employees::init_routes(config);
+    members::init_routes(config);
+    books::init_routes(config);
 }
 
 #[actix_rt::main]
