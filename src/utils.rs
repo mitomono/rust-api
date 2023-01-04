@@ -1,8 +1,10 @@
 pub mod response {
     #![allow(non_snake_case)]
+
+    use utoipa::ToSchema;
+
     use crate::books::Books;
     use crate::members::Members;
-    use utoipa::ToSchema;
 
     #[derive(ToSchema)]
     pub struct MembersResponse {
@@ -43,7 +45,7 @@ pub mod check {
     /// use lib_api::utils::check;
     /// match check::validate_int("2") {
     ///     Ok(n) => assert_eq!(2, n),
-    ///     Err(e) => panic!("Returned Err! => {}", e),
+    ///     Err(e) => panic!("Returned Err! => {e}"),
     /// }
     /// ```
     /// ```
@@ -51,7 +53,7 @@ pub mod check {
     ///
     /// match check::validate_int("a") {
     ///     Err(e) if e.to_string() == "Error parsing string: 'a', not a valid integer" => (),
-    ///     Err(e) => panic!("Returned incorrect Err! => {}", e),
+    ///     Err(e) => panic!("Returned incorrect Err! => {e}"),
     ///     Ok(_) => panic!("Returned an Ok variant!"),
     /// }
     ///```
@@ -72,7 +74,7 @@ pub mod check {
     /// use lib_api::utils::check;
     /// match check::validate_float("1.1") {
     ///     Ok(n) => assert_eq!(1.1, n),
-    ///     Err(e) => panic!("Returned Err! => {}", e),
+    ///     Err(e) => panic!("Returned Err! => {e}"),
     /// }
     /// ```
     ///
@@ -80,7 +82,7 @@ pub mod check {
     /// use lib_api::utils::check;
     /// match check::validate_float("a") {
     ///     Err(e) if e.to_string() == "Error parsing string: 'a', not a valid float" => (),
-    ///     Err(e) => panic!("Returned incorrect Err! => {}", e),
+    ///     Err(e) => panic!("Returned incorrect Err! => {e}"),
     ///     Ok(_) => panic!("Returned an Ok variant!"),
     /// }
     ///```
@@ -101,7 +103,7 @@ pub mod check {
     /// use lib_api::utils::check;
     /// match check::parse_ids("1,2") {
     ///     Ok(vec_n) => assert_eq!(vec![1, 2], vec_n),
-    ///     Err(e) => panic!("Returned Err! => {}", e),
+    ///     Err(e) => panic!("Returned Err! => {e}"),
     /// }
     /// ```
     ///
@@ -109,7 +111,7 @@ pub mod check {
     /// use lib_api::utils::check;
     /// match check::parse_ids("a,2") {
     ///     Err(e) if e.to_string() == "Error parsing string: 'a', not a valid integer" => (),
-    ///     Err(e) => panic!("Returned incorrect Err!{}", e),
+    ///     Err(e) => panic!("Returned incorrect Err! => {e}"),
     ///     Ok(_) => panic!("Returned an Ok variant!"),
     /// }
     /// ```
@@ -140,15 +142,15 @@ pub mod check {
     ///
     /// let mut params = HashMap::new();
     /// params.insert("id".to_string(), "1".to_string());
-    /// params.insert("first_name".to_string(), "adr".to_string());
-    /// params.insert("last_name".to_string(), "lara".to_string());
+    /// params.insert("first_name".to_string(), "a name".to_string());
+    /// params.insert("last_name".to_string(), "a first name".to_string());
     /// params.insert("email".to_string(), "tests@gg.com".to_string());
     /// params.insert("address".to_string(), "test street".to_string());
     /// params.insert("age".to_string(), "18".to_string());
     ///
     /// match check::validate_members_params(&params) {
     ///     Ok(..) => (),
-    ///     Err(e) => panic!("Returned incorrect Err! => {}", e),
+    ///     Err(e) => panic!("Returned incorrect Err! => {e}"),
     /// }
     /// ```
     ///
@@ -159,15 +161,15 @@ pub mod check {
     /// let mut params = HashMap::new();
     /// params.insert("id".to_string(), "1".to_string());
     /// params.insert("ids".to_string(), "1,2".to_string());
-    /// params.insert("first_name".to_string(), "adr".to_string());
-    /// params.insert("last_name".to_string(), "lara".to_string());
+    /// params.insert("first_name".to_string(), "a name".to_string());
+    /// params.insert("last_name".to_string(), "a first name".to_string());
     /// params.insert("email".to_string(), "tests@gg.com".to_string());
     /// params.insert("address".to_string(), "test street".to_string());
     /// params.insert("age".to_string(), "18".to_string());
     ///
     /// match check::validate_members_params(&params) {
     ///     Err(e) if e.to_string() == "select only one of them, id xor ids" => (),
-    ///     Err(e) => panic!("Returned incorrect Err! => {}", e),
+    ///     Err(e) => panic!("Returned incorrect Err! => {e}"),
     ///     Ok(_) => panic!("Returned an Ok variant!"),
     /// }
     /// ```
@@ -178,15 +180,15 @@ pub mod check {
     ///
     /// let mut params = HashMap::new();
     /// params.insert("ids".to_string(), "1,2".to_string());
-    /// params.insert("first_name".to_string(), "adr".to_string());
-    /// params.insert("last_name".to_string(), "lara".to_string());
+    /// params.insert("first_name".to_string(), "a name".to_string());
+    /// params.insert("last_name".to_string(), "a first name".to_string());
     /// params.insert("email".to_string(), "tests@gg.com".to_string());
     /// params.insert("address".to_string(), "test street".to_string());
     /// params.insert("age".to_string(), "a".to_string());
     ///
     /// match check::validate_members_params(&params) {
     ///     Err(e) if e.to_string() == "Error parsing string: 'a', not a valid integer" => (),
-    ///     Err(e) => panic!("Returned incorrect Err! {}", e),
+    ///     Err(e) => panic!("Returned incorrect Err! => {e}"),
     ///     Ok(_) => panic!("Returned an Ok variant!"),
     /// }
     ///```
@@ -266,7 +268,7 @@ pub mod check {
     ///
     /// match check::validate_book_params(&params) {
     ///     Ok(..) => (),
-    ///     Err(e) => panic!("Returned incorrect Err! => {}", e),
+    ///     Err(e) => panic!("Returned incorrect Err! => {e}"),
     /// }
     /// ```
     ///
@@ -284,7 +286,7 @@ pub mod check {
     ///
     /// match check::validate_book_params(&params) {
     ///     Err(e) if e.to_string() == "select only one of them, id xor ids" => (),
-    ///     Err(e) => panic!("Returned incorrect Err! => {}", e),
+    ///     Err(e) => panic!("Returned incorrect Err! => {e}"),
     ///     Ok(_) => panic!("Returned an Ok variant!"),
     /// }
     /// ```
@@ -346,61 +348,60 @@ pub mod check {
     }
 }
 
-// Alternative tests
-//
+// // Alternative tests
 // #[cfg(test)]
 // mod test {
 //     use std::collections::HashMap;
 //
-//     use crate::utils::check::{parse_ids, validate_float, validate_int, validate_params};
+//     use crate::utils::check;
 //
 //     #[test]
 //     fn validate_int_test_ok() {
-//         match validate_int("2") {
+//         match check::validate_int("2") {
 //             Ok(n) => assert_eq!(2, n),
-//             Err(e) => panic!("Returned Err! => {}", e),
+//             Err(e) => panic!("Returned Err! => {e}"),
 //         }
 //     }
 //
 //     #[test]
 //     fn validate_int_test_ko() {
-//         match validate_int("a") {
+//         match check::validate_int("a") {
 //             Err(e) if e.to_string() == "Error parsing string: 'a', not a valid integer" => (),
-//             Err(e) => panic!("Returned incorrect Err! => {}", e),
+//             Err(e) => panic!("Returned incorrect Err! => {e}"),
 //             Ok(_) => panic!("Returned an Ok variant!"),
 //         }
 //     }
 //
 //     #[test]
 //     fn validate_float_test_ok() {
-//         match validate_float("1.1") {
+//         match check::validate_float("1.1") {
 //             Ok(n) => assert_eq!(1.1, n),
-//             Err(e) => panic!("Returned Err! => {}", e),
+//             Err(e) => panic!("Returned Err! => {e}"),
 //         }
 //     }
 //
 //     #[test]
 //     fn validate_float_test_ko() {
-//         match validate_float("a") {
+//         match check::validate_float("a") {
 //             Err(e) if e.to_string() == "Error parsing string: 'a', not a valid float" => (),
-//             Err(e) => panic!("Returned incorrect Err! => {}", e),
+//             Err(e) => panic!("Returned incorrect Err! => {e}"),
 //             Ok(_) => panic!("Returned an Ok variant!"),
 //         }
 //     }
 //
 //     #[test]
 //     fn validate_ids_test_ok() {
-//         match parse_ids("1,2") {
+//         match check::parse_ids("1,2") {
 //             Ok(vec_n) => assert_eq!(vec![1, 2], vec_n),
-//             Err(e) => panic!("Returned Err! => {}", e),
+//             Err(e) => panic!("Returned Err! => {e}"),
 //         }
 //     }
 //
 //     #[test]
 //     fn validate_ids_test_ko() {
-//         match parse_ids("a,1") {
+//         match check::parse_ids("a,1") {
 //             Err(e) if e.to_string() == "Error parsing string: 'a', not a valid integer" => (),
-//             Err(e) => panic!("Returned incorrect Err!{}", e),
+//             Err(e) => panic!("Returned incorrect Err! => {e}"),
 //             Ok(_) => panic!("Returned an Ok variant!"),
 //         }
 //     }
@@ -409,55 +410,55 @@ pub mod check {
 //     fn validate_members_params_test_ok() {
 //         let mut params = HashMap::new();
 //         params.insert("id".to_string(), "1".to_string());
-//         params.insert("first_name".to_string(), "adr".to_string());
-//         params.insert("last_name".to_string(), "lara".to_string());
+//         params.insert("first_name".to_string(), "a name".to_string());
+//         params.insert("last_name".to_string(), "a first name".to_string());
 //         params.insert("email".to_string(), "tests@gg.com".to_string());
 //         params.insert("address".to_string(), "test street".to_string());
 //         params.insert("age".to_string(), "18".to_string());
 //
-//         match validate_params(&params) {
+//         match check::validate_members_params(&params) {
 //             Ok(..) => (),
-//             Err(e) => panic!("Returned incorrect Err! => {}", e),
+//             Err(e) => panic!("Returned incorrect Err! => {e}"),
 //         }
 //     }
 //
 //     #[test]
-//     fn validate_params_test_ko_ids() {
+//     fn validate_members_params_test_ko_ids() {
 //         let mut params = HashMap::new();
 //         params.insert("id".to_string(), "1".to_string());
 //         params.insert("ids".to_string(), "1,2".to_string());
-//         params.insert("first_name".to_string(), "adr".to_string());
-//         params.insert("last_name".to_string(), "lara".to_string());
+//         params.insert("first_name".to_string(), "a name".to_string());
+//         params.insert("last_name".to_string(), "a first name".to_string());
 //         params.insert("email".to_string(), "tests@gg.com".to_string());
 //         params.insert("address".to_string(), "test street".to_string());
 //         params.insert("age".to_string(), "18".to_string());
 //
-//         match validate_members_params(&params) {
+//         match check::validate_members_params(&params) {
 //             Err(e) if e.to_string() == "select only one of them, id xor ids" => (),
-//             Err(e) => panic!("Returned incorrect Err! => {}", e),
+//             Err(e) => panic!("Returned incorrect Err! => {e}"),
 //             Ok(_) => panic!("Returned an Ok variant!"),
 //         }
 //     }
 //
 //     #[test]
-//     fn validate_params_test_ko_age() {
+//     fn validate_members_params_test_ko_age() {
 //         let mut params = HashMap::new();
 //         params.insert("ids".to_string(), "1,2".to_string());
-//         params.insert("first_name".to_string(), "adr".to_string());
-//         params.insert("last_name".to_string(), "lara".to_string());
+//         params.insert("first_name".to_string(), "a name".to_string());
+//         params.insert("last_name".to_string(), "a first name".to_string());
 //         params.insert("email".to_string(), "tests@gg.com".to_string());
 //         params.insert("address".to_string(), "test street".to_string());
-//         params.insert("age".to_string(), "18".to_string());
+//         params.insert("age".to_string(), "a".to_string());
 //
-//         match validate_members_params(&params) {
+//         match check::validate_members_params(&params) {
 //             Err(e) if e.to_string() == "Error parsing string: 'a', not a valid integer" => (),
-//             Err(e) => panic!("Returned incorrect Err! {}", e),
+//             Err(e) => panic!("Returned incorrect Err! => {e}"),
 //             Ok(_) => panic!("Returned an Ok variant!"),
 //         }
 //     }
 //
 //     #[test]
-//     fn validate_params_test_ok() {
+//     fn validate_book_params_test_ok() {
 //         let mut params = HashMap::new();
 //         params.insert("id".to_string(), "1".to_string());
 //         params.insert("title".to_string(), "a title".to_string());
@@ -465,14 +466,14 @@ pub mod check {
 //         params.insert("copies_available".to_string(), "3".to_string());
 //         params.insert("copies".to_string(), "3".to_string());
 //
-//         match validate_book_params(&params) {
+//         match check::validate_book_params(&params) {
 //             Ok(..) => (),
-//             Err(e) => panic!("Returned incorrect Err! => {}", e),
+//             Err(e) => panic!("Returned incorrect Err! => {e}"),
 //         }
 //     }
 //
 //     #[test]
-//     fn validate_params_test_ko_ids() {
+//     fn validate_book_params_test_ko_ids() {
 //         let mut params = HashMap::new();
 //         params.insert("id".to_string(), "1".to_string());
 //         params.insert("ids".to_string(), "1,2".to_string());
@@ -481,9 +482,9 @@ pub mod check {
 //         params.insert("copies_available".to_string(), "3".to_string());
 //         params.insert("copies".to_string(), "3".to_string());
 //
-//         match validate_book_params(&params) {
+//         match check::validate_book_params(&params) {
 //             Err(e) if e.to_string() == "select only one of them, id xor ids" => (),
-//             Err(e) => panic!("Returned incorrect Err! => {}", e),
+//             Err(e) => panic!("Returned incorrect Err! => {e}"),
 //             Ok(_) => panic!("Returned an Ok variant!"),
 //         }
 //     }

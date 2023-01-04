@@ -31,7 +31,7 @@ async fn find_all() -> Result<HttpResponse, CustomError> {
     ),
     params(
         ("id" = Option<i32>, Query, description = "Book database id"),
-        ("ids" = Option<String>, Query, description = "Books database comma separated ids"),
+        ("ids" = Option<String>, Query, description = "Books database comma separated ids example (1,2,3)"),
         ("title" = Option<String>, Query,  description = "Book Title"),
         ("isbn" = Option<String>, Query,  description = "Book isbn"),
         ("copies_available" = Option<i32>, Query,  description = "Num of copies available"),

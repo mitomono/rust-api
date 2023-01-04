@@ -31,7 +31,7 @@ async fn find_all() -> Result<HttpResponse, CustomError> {
     ),
     params(
         ("id" = Option<i32>, Query, description = "Member database id"),
-        ("ids" = Option<String>, Query, description = "Members database comma separated ids"),
+        ("ids" = Option<String>, Query, description = "Members database comma separated ids example (1,2,3)"),
         ("first_name" = Option<String>, Query,  description = "Member name"),
         ("last_name" = Option<String>, Query,  description = "Member last_name"),
         ("email" = Option<String>, Query,  description = "Member email"),
