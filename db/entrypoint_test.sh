@@ -13,5 +13,5 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
       age INT NOT NULL
   );
 
-  insert into employees (id, first_name, last_name, department, salary, age) values (1,'adrian', 'lara','san jose', 10.3, 38);
+  insert into employees (id, first_name, last_name, department, salary, age) values (1,'username', 'user last_name','departament', 10.3, 38);
 EOSQL
