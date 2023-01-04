@@ -1,0 +1,43 @@
+FROM rustlang/rust:nightly as build
+
+# create a new empty shell project
+RUN USER=root cargo new --bin api_rust
+WORKDIR /api_rust
+
+# copy over your manifests
+#COPY ./Cargo.lock ./Cargo.lock
+#COPY ./Cargo.toml ./Cargo.toml
+#COPY ./diesel.toml ./diesel.toml
+#COPY ./.env ./.env
+#COPY ./migrations ./migrations
+
+# this build step will cache your dependencies
+#RUN cargo build --release
+#RUN rm src/*.rs
+
+# copy your source tree
+COPY . .
+
+# build for release
+#RUN rm ./target/release/deps/api_rust*
+RUN cargo build --release
+
+# our final base
+FROM debian:buster-slim
+
+RUN apt-get update && apt-get -y install libpq5
+
+# copy the build artifact from the build stage
+COPY --from=build /api_rust/target/release/api_rust .
+COPY ./migrations ./migrations
+COPY ./.env ./.env
+
+# set the startup command to run your binary
+CMD ["./api_rust"]
+
+
+
+
+
+
+
