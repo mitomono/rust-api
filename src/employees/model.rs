@@ -2,13 +2,13 @@ use std::collections::{HashMap, HashSet};
 
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
+use utoipa::ToSchema;
 
 use crate::db;
 use crate::error_handler::CustomError;
 use crate::schema::employees;
 use crate::utils::check;
 use crate::utils::check::{validate_float, validate_int};
-use utoipa::ToSchema;
 
 #[derive(Serialize, Deserialize, AsChangeset, Insertable)]
 #[diesel(table_name = employees)]
