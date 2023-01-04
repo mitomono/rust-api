@@ -5,7 +5,7 @@ authors = ["Adrian Lara <mitomono@gmail.com>"]
 edition = "2021"
 
 [lib]
-name = "libAPI"
+name = "lib_api"
 path = "src/lib.rs"
 
 [[bin]]
