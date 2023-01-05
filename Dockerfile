@@ -9,6 +9,8 @@ RUN apt update -y && apt install postgresql postgresql-contrib -y
 
 COPY . .
 
+RUN cargo install diesel_cli
+
 EXPOSE 8000
 
 #CMD ["./target/release/api_rust"]
