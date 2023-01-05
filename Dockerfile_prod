@@ -3,30 +3,15 @@ FROM rustlang/rust:nightly as build
 # create a new empty shell project
 RUN USER=root cargo new --bin api_rust
 WORKDIR /api_rust
-
-# copy over your manifests
-#COPY ./Cargo.lock ./Cargo.lock
-#COPY ./Cargo.toml ./Cargo.toml
-#COPY ./diesel.toml ./diesel.toml
-#COPY ./.env ./.env
-#COPY ./migrations ./migrations
-
-# this build step will cache your dependencies
-#RUN cargo build --release
-#RUN rm src/*.rs
-
-# copy your source tree
 COPY . .
 
-# build for release
-#RUN rm ./target/release/deps/api_rust*
-RUN cargo install diesel_cli
+RUN cargo install diesel_cli --no-default-features --features postgres
 RUN sh -c "entrypoint.sh"
 
 RUN cargo build --release
 
 # our final base
-FROM debian:buster-slim
+FROM debian:buster-slimS
 
 RUN apt-get update && apt-get -y install libpq5
 

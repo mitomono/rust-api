@@ -9,7 +9,7 @@ RUN apt update -y && apt install postgresql postgresql-contrib -y
 
 COPY . .
 
-RUN cargo install diesel_cli
+RUN cargo install diesel_cli --no-default-features --features postgres
 
 EXPOSE 8000
 
