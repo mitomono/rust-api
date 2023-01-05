@@ -30,7 +30,7 @@ services:
       dockerfile: Dockerfile
     image: api_rust:dev
     user: root
-    command: sh -c "cargo run"
+    command: "sh entrypoint.sh"
     ports:
       - "80:80"
       - "443:443"
@@ -53,7 +53,7 @@ services:
       dockerfile: Dockerfile
     image: api_rust:test
     user: root
-    command: sh -c "cargo test"
+    command: "sh entrypoint_test.sh"
     ports:
       - "80:80"
       - "443:443"
@@ -71,13 +71,13 @@ services:
       - db_test
 
   db:
+    image: postgres:13-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data/pgdata
     build:
       context:
         db
       dockerfile: Dockerfile_pg
-    user: root
-    volumes:
-      - pgdata:/var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
     expose:
@@ -89,11 +89,11 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
 
   db_test:
+    image: postgres_test:13-alpine
     build:
       context:
         db
-      dockerfile: Dockerfile_pg_test
-    user: root
+      dockerfile: Dockerfile_pg
     ports:
       - "5432:5432"
     expose:
@@ -102,7 +102,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=tests
-      - PGDATA=/var/lib/postgresql/data/pgdata
 volumes:
   cargo: {}
   pgdata: {}

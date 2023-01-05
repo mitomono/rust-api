@@ -19,7 +19,7 @@ run-test:
 up: build
 	docker-compose -f docker-compose.yml up api -d
 
-up-dev: build-dev
+up-dev:
 	docker-compose -f docker-compose.yml up api_dev
 
 down:
